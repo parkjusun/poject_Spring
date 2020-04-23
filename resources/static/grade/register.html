@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		/* Style the header */
+		header {
+			background-color: #666;
+			padding: 30px;
+			text-align: center;
+			font-size: 35px;
+			color: white;
+		}
+
+		/* Container for flexboxes */
+		section {
+			display: -webkit-flex;
+			display: flex;
+		}
+
+		/* Style the navigation menu */
+		nav {
+			-webkit-flex: 1;
+			-ms-flex: 1;
+			flex: 1;
+			background: #ccc;
+			padding: 20px;
+		}
+
+		/* Style the list inside the menu */
+		nav ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
+		/* Style the content */
+		article {
+			-webkit-flex: 3;
+			-ms-flex: 3;
+			flex: 3;
+			background-color: #f1f1f1;
+			padding: 10px;
+		}
+
+		/* Style the footer */
+		footer {
+			background-color: #777;
+			padding: 10px;
+			text-align: center;
+			color: white;
+		}
+
+		/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+		@media (max-width: 600px) {
+			section {
+				-webkit-flex-direction: column;
+				flex-direction: column;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<h2>홈페이지</h2>
+	<header>
+		<h2>Cities</h2>
+	</header>
+
+	<section>
+
+		<article>
+
+			<form action="#">
+				<label>ID</label><br>
+				<input id="userid" type="text" /><br>
+				<label>korean</label><br>
+				<input id="korean" type="text" /><br>
+				<label>english</label><br>
+				<input id="english" type="text" /><br>
+				<label>math</label><br>
+				<input id="math" type="text" /><br>
+				<label>java</label><br>
+				<input id="java" type="text" /><br><br>
+				<input id="register_button" type="button" value="점수등록">
+				<input id="show-button" type="button" value="학점보기">
+
+			</form>
+
+			<div id="result"></div>
+		</article>
+	</section>
+
+	<footer>
+		<p>Footer</p>
+	</footer>
+
+	<script>
+		
+		$('#register_button').click(e => {
+			e.preventDefault()
+			$('#result').html('')
+			$.ajax({
+				url: '/grade/register',
+				type: 'post',
+				data: JSON.stringify({
+					userid: $('#userid').val(),
+					korean: $('#korean').val(),
+					english: $('#english').val(),
+					math: $('#math').val(),
+					java: $('#java').val()
+				}),
+				dataType: 'json',
+				contentType: 'application/json',
+				success: d => {
+					alert(d)
+				},
+				error: (r, s, e) => {
+					alert(r.state + "\n" + s.responseText + "\n" + e)
+
+				}
+			})
+		})
+
+		$('#show-button').click(e=>{
+			e.preventDefault()
+			
+			$.ajax({
+				url:'/grade/result/'+$('#userid').val(),
+				type:'get',
+				dataType:'json',
+				contentType: 'application/json',
+				success: d =>{
+
+					$('#result').html('<h3>학점:'+ d +'</h3>')
+
+				},
+
+				error: (r, s, e) => {
+					alert(r.state + "\n" + s.responseText + "\n" + e)
+
+				}
+			})
+		})
+
+
+		// $('#register-button').click(function () {
+		// 	let grade = {
+		// 		userid: $('#userid').val(),
+		// 		korean: $('#korean').val(),
+		// 		english: $('#english').val(),
+		// 		math: $('#math').val(),
+		// 		java: $('#java').val(),
+		// 	}
+
+		// 	$.ajax({
+		// 		url: '/grade/gradeInput',
+		// 		type: 'post',
+		// 		data: JSON.stringify(grade),
+		// 		dataType: 'json',
+		// 		contentType: 'application/json',
+		// 		success: function (message) {
+		// 			alert('점수등록')
+		// 		},
+		// 		error: function () {
+		// 			alert('네트워킹연결안됨')
+		// 		}
+		// 	})
+		// })
+
+		// $('#show-button').click(function(){
+		// 	$.ajax({
+		// 		url:'/grade/register',
+		// 		type :'post',
+		// 		data: JSON.stringify(),
+		// 		dataType:'json',
+		// 		contentType:'application/json',
+		// 		success:function(message){
+		// 			alert('학점'+ message)
+		// 		},
+		// 		error:function(){
+		// 			alert('네트워크 열결 실패')
+		// 		}
+		// 	})
+		// })
+
+
+
+	</script>
+
+
+
+
+
+</body>
+
+</html>

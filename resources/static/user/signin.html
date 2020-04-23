@@ -74,17 +74,13 @@
 <body>
 
     <header>
-        <h2>관리자 로그인</h2>
+        <h2>사용자 로그인</h2>
     </header>
 
     <section>
         <nav>
             <ul>
-                <li><a id="join_a">관리자 등록</a></li>
-                <li><a id="login_a">관리자 접속</a></li>
-                <li><a id="signin_a">사용자 등록</a></li>
-                <li><a id="signup_a">사용자 접속</a></li>
-                <li><a id="lotto_a">로또</a></li>
+                <li><a id="home_a">홈으로</a></li>
             </ul>
         </nav>
 
@@ -97,83 +93,50 @@
                 <input id="password" type="text"><br>
                 <input id="login-button" type="button" value="로그인">
                 <input id="cancl-Button" type="button" value="취소">
-
             </form>
-
-
         </article>
     </section>
 
     <footer>
         <p>Footer</p>
     </footer>
+
     <script>
-        $('#join_a')
-            .css('curser', 'pointer')
-            .click(e => {
-                e.preventDefault()
-                location.href = 'member/join.html'
-            })
-
-        $('#login_a')
-            .click(e => {
-                e.preventDefault()
-                location.href = 'index.html'
-            })
-
+        $('#home_a').click(e => {
+            e.preventDefault
+            location.href = "../index.html"
+        })
 
         $('#login-button').click(e => {
-            e.preventDefault()
-            let member = {
-                userId: $('#userid').val(),
-                password: $('#password').val()
-            }
-
+            e.preventDefault
             $.ajax({
-                url: '/member/login',
-                type: 'post',
-                data: JSON.stringify(member),
+                url: '/user/login',
+                type: "post",
+                data: JSON.stringify({
+                    userId: $('#userid').val(),
+                    password: $('#password').val(),
+                }),
                 dataType: 'json',
-                contentType: 'application/json',
+                contentType: 'application/json; charset=utf-8;',
                 success: d => {
-                    if (d === 'SUCCESS') {
-                        location.href = "grade/register.html"
-                    } else {
-                        alert('다시로그인 해주세요.')
-                        location.href = "index.html"
+                    if (d.messenger === 'SUCCESS') {
+                        
+                        alert("주민번호 :"+d.user.ssn+"주소 :"+d.user.addr)
 
+                        location.href = 'mypage.html'
+                        
+                    } else {
+                        location.href = 'signin.html'
                     }
                 },
-                error: (request, status, error) => {
-                    alert("code:" + request.status + "\n" + "message:" + request.responseText + "\n" + "error:" + error)
+                error: (r, s, e) => {
+                    alert(r.staturs + "/n" + s + "/n" + e)
                 }
+
             })
-        })
 
-        $('#cancel-button').click(e => {
-            e.preventDefault()
-            $ajax({
-                url: '/member',
-                type: 'post',
-                data: JSON.stringify(member),
-                dataType: 'json',
-                contentType: 'application/json'
-            })
-        })
 
-        $('#signin_a').click(e =>{
-            location.href = "user/signup.html"
         })
-
-        $('#signup_a').click(e =>{
-                location.href = "user/signin.html"
-            } )
-        
-        $('#lotto_a').click(e =>{
-            location.href = 'lotto/bay.html'
-        })
-
-        
     </script>
 </body>
 

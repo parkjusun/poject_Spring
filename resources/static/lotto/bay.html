@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<style>
+		* {
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: Arial, Helvetica, sans-serif;
+		}
+
+		/* Style the header */
+		header {
+			background-color: #666;
+			padding: 30px;
+			text-align: center;
+			font-size: 35px;
+			color: white;
+		}
+
+		/* Container for flexboxes */
+		section {
+			display: -webkit-flex;
+			display: flex;
+		}
+
+		/* Style the navigation menu */
+		nav {
+			-webkit-flex: 1;
+			-ms-flex: 1;
+			flex: 1;
+			background: #ccc;
+			padding: 20px;
+		}
+
+		/* Style the list inside the menu */
+		nav ul {
+			list-style-type: none;
+			padding: 0;
+		}
+
+		/* Style the content */
+		article {
+			-webkit-flex: 3;
+			-ms-flex: 3;
+			flex: 3;
+			background-color: #f1f1f1;
+			padding: 10px;
+		}
+
+		/* Style the footer */
+		footer {
+			background-color: #777;
+			padding: 10px;
+			text-align: center;
+			color: white;
+		}
+
+		/* Responsive layout - makes the menu and the content (inside the section) sit on top of each other instead of next to each other */
+		@media (max-width: 600px) {
+			section {
+				-webkit-flex-direction: column;
+				flex-direction: column;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<header>
+		<h2>로또번호 구매</h2>
+	</header>
+
+	<section>
+
+		<article>
+
+			<form action="#">
+				<label>ID</label><br>
+				<input id="userid" type="text" /><br>
+				<label>로또번호를 입력해주세요.</label><br>
+				<input id="lotto" type="text" /><br>
+
+
+				<input id="bay_button" type="button" value="로또 구매">
+				<input id="show-button" type="button" value="당첨결과">
+
+			</form>
+
+			<div id="result"></div>
+		</article>
+	</section>
+
+	<footer>
+		<p>Footer</p>
+	</footer>
+
+	<script>
+		$('#bay_button').click(e => {
+
+			$.ajax({
+				url: '/lotto/lottoUser/'+ $('#lotto').val(),
+				type: 'get',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: d => {
+					alert("구매성공");
+				},
+				error: (r, s, e) => {
+					alert("실패")
+				}
+			})
+
+		})
+
+
+		$('#show-button').click(e => {
+
+			$.ajax({
+				url: '/lotto/result/'+ $('#userid').val(),
+				type: 'get',
+				dataType: 'json',
+				contentType: 'application/json',
+				success: d => {
+					alert(d);
+				},
+				error: (r, s, e) => {
+					alert("실패")
+				}
+			})
+
+		})
+
+
+
+
+
+
+
+	</script>
+
+
+</body>
+
+</html>
