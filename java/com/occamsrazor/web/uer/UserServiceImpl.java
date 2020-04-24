@@ -43,9 +43,10 @@ public class UserServiceImpl implements UserSevice {
 	}
 
 	@Override
-	public void update(User user) {
-		// TODO Auto-generated method stub
+	public boolean update(User user) {
+		map.replace(user.getUserId(), user);
 		
+		return true;
 	}
 
 	@Override
@@ -57,6 +58,12 @@ public class UserServiceImpl implements UserSevice {
 	public int count() {
 		// TODO Auto-generated method stub
 		return map.size();
+	}
+	@Override
+	public boolean remove(String userid) {
+		// TODO Auto-generated method stub
+		map.remove(userid);
+		return true;
 	}
 
 

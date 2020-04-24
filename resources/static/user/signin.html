@@ -120,13 +120,13 @@
                 contentType: 'application/json; charset=utf-8;',
                 success: d => {
                     if (d.messenger === 'SUCCESS') {
-                        
-                        alert("주민번호 :"+d.user.ssn+"주소 :"+d.user.addr)
-
+                        sessionStorage.setItem('userid', d.user.userId)
                         location.href = 'mypage.html'
-                        
+
                     } else {
+
                         location.href = 'signin.html'
+
                     }
                 },
                 error: (r, s, e) => {
