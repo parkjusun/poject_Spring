@@ -90,7 +90,8 @@
                 <label>Name</label><br>
                 <input id="name" type="text" /><br>
                 <label>ID</label><br>
-                <input id="userid" type="text" /><br>
+                <input id="userid" type="text" />
+                <input id="useridCheck" type="button" value="아이디중복체크"><br>
                 <label>Password</label><br>
                 <input id="password" type="text" /><br>
                 <label>Ssn</label><br>
@@ -120,7 +121,6 @@
             $.ajax({
                 url: '/user/join',
                 type: "post",
-
                 data: JSON.stringify({
                     name: $('#name').val(),
                     userId: $('#userid').val(),
@@ -128,26 +128,52 @@
                     ssn: $('#ssn').val(),
                     addr: $('#address').val()
                 }),
-                
+
                 dataType: 'json',
                 contentType: 'application/json',
                 success: d => {
-                     if(d === 'SUCCESS'){
-                         
-                         location.href = 'signup.html'
-                     }else{
-                         location.href = 'signin.html'
-                     }
+                    if (d === 'SUCCESS') {
+
+                        location.href = 'signup.html'
+                    } else {
+                        location.href = 'signin.html'
+                    }
                 },
-                error:(r,s,e)=>{
-                    alert(r+"/n"+s+"/n"+e)
+                error: (r, s, e) => {
+                    alert(r + "/n" + s + "/n" + e)
                 }
 
             })
 
 
         })
-        
+
+        $('#useridCheck').click(e => {
+            e.preventDefault
+            $.getJSON('/user/idCheck/' + $('#userid').val(), d => {
+
+               alert((d === 'SUCCESS')? '사용가능한 아이디 입니다.' : '중복된 아이디 입니다.')
+
+            })
+            /*
+            $.ajax({
+                url: '/user/idCheck/' + $('#userid').val(),
+                type: 'get',
+                dataType: 'json',
+                contentType: 'application/json',
+                success: d => {
+                    if (d === 'SUCCESS') {
+                       alert('중복된 아이디 입니다.')
+                    } else {
+                        alert('사용가능한 아이디 입니다.')
+                    }
+                },
+                error: (r, s, e) => {
+                    alert(r + "/n" + s + "/n" + e)
+                }
+            })*/
+        })
+
     </script>
 </body>
 

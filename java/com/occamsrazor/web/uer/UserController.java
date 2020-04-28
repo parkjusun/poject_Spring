@@ -1,7 +1,10 @@
 package com.occamsrazor.web.uer;
 
 
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,9 +26,17 @@ public class UserController {
 	
 	@PostMapping("/join")
 	public Messenger add(@RequestBody User user) {
-		userSevice.add(user);
+		userSevice.saveFile(user);
 		int count = userSevice.count();
-		return (userSevice.count() == count +1)? Messenger.SUCCESS : Messenger.FAIL;
+		return Messenger.SUCCESS;
+		//return (userSevice.count() == count +1)? Messenger.SUCCESS : Messenger.FAIL;
+	}
+	
+	@GetMapping("/list")
+	public List<User> list(){
+		
+//	return userSevice.list();
+		return userSevice.readFile();
 	}
 	
 	@PostMapping("/login")
@@ -53,12 +64,18 @@ public class UserController {
 	public Messenger update(@RequestBody User user) {
 		System.out.println("update 정보: "+user);
 		System.out.println(userSevice.update(user));
-		return (userSevice.update(user))? Messenger.SUCCESS:Messenger.FAIL;
+		return (userSevice.update(user))? Messenger.SUCCESS : Messenger.FAIL;
 	}
 	
 	@DeleteMapping("/remove/{userid}")
 	public Messenger remove(@PathVariable String userid) {
 		System.out.println("delet 정보 :"+userid);
 		return (userSevice.remove(userid))? Messenger.SUCCESS : Messenger.FAIL;
+	}
+	
+	@GetMapping("/idCheck/{userid}")
+	public Messenger idCheck(@PathVariable String userid) {
+		return (userSevice.idCheck(userid))? Messenger.FAIL : Messenger.SUCCESS;
+//		return Messenger.SUCCESS;
 	}
 }

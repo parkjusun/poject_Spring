@@ -117,7 +117,7 @@
                     password: $('#password').val(),
                 }),
                 dataType: 'json',
-                contentType: 'application/json; charset=utf-8;',
+                contentType: 'application/json',
                 success: d => {
                     if (d.messenger === 'SUCCESS') {
                         sessionStorage.setItem('userid', d.user.userId)
